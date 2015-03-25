@@ -887,7 +887,7 @@ VARIABLE timer-base      0 timer-base !
 \ incrementing LY. When LY reaches 154, reset to 0 and unlock VBlank.
 : video-start-vblank ( -- )
     int-mask-vblank enable-interrupt
-    stat-int-vblank maybe-enable-stat-interrupt
+    stat-int-vblank maybe-fire-stat-int
     1 mode!
   ;
 
@@ -896,6 +896,14 @@ VARIABLE timer-base      0 timer-base !
         0 video-counter ! ( old-counter ly )
         SWAP DROP 0 SWAP  ( new-counter ly )
         1+ DUP io-LY io-ports C! ( new-counter ly' )
+        \ Check LYC and set coincidence if needed.
+        io-LYC io-ports C@ OVER = ( new-counter ly' ? )
+        io-STAT io-ports DUP C@ ( ... ? addr stat )
+        ROT IF ( ... addr stat )
+            stat-coincidence-flag OR  ( ... addr stat' )
+            stat-int-coincidence maybe-fire-stat-int
+        ELSE stat-coincidence-flag INVERT AND THEN ( ... addr stat' )
+        SWAP C! ( new-counter ly' )
     THEN
   ;
 
