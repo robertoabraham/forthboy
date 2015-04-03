@@ -4,7 +4,7 @@
 
 
 : CARRAY ( u "name" -- ) ( exec: index -- c-addr )
-    CREATE ALLOT DOES> + ;
+    CREATE ALLOT ALIGN DOES> + ;
 
 : KB ( u -- u ) 10 LSHIFT ;
 
