@@ -19,7 +19,7 @@ WIDTH HEIGHT * array pixels
 
   \ Populate the pixels array.
   \ Default color: solid blue.
-  0xFF0000FF
+  $FF0000FF
   WIDTH HEIGHT * 0 DO dup i pixels ! LOOP
   drop
 

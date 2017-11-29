@@ -14,7 +14,7 @@
 
 \ Registers and words for accessing them
 \ A, B, C, D, E, F, H and L
-HERE @
+HERE
 12 ALLOT
 
    DUP CONSTANT reg-a
